@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <style media="screen">
+      .bloc{
+        diplsay:inline;
+        font-size : 2rem;
+        font-family: Arial, sans-serif;
+      }
+    </style>
+
+    <script type="text/javascript">
+      var pays = [
+          { nom:'Espagne', couleur:  'red'},
+          { nom:'France', couleur:  'yellow'},
+          { nom:'Belgique', couleur:  'green'},
+          { nom:'Italie', couleur:  'blue'}
+          ];
+      window.addEventListener('load', init );
+      function init(){
+        randomBackgroundColor();
+        document.body.addEventListener('selectionPays', onCountrySelection );
+      }
+      function randomBackgroundColor(event){
+          var randomColor = pays[Math.ceil(Math.random()*pays.length - 1)].couleur;
+          document.body.style.backgroundColor = randomColor;
+      }
+      function addBlock(){
+        var container = document.getElementById('container');
+        var numBlocs = container.children.length;
+        var bloc = document.createElement("div");
+        bloc.style.width = "40px";
+        bloc.style.height = "40px";
+        // modulo permet de repartir à la première couleurs tous les 4 blocs
+        bloc.style.backgroundColor = pays[numBlocs%pays.length].couleur;
+        //bloc.onclick = onClicBloc;
+        bloc.addEventListener("click", onClicBloc);
+        bloc.classList.add('bloc');
+        bloc.dataset.pays = pays[numBlocs%pays.length].nom;
+        bloc.innerText = pays[numBlocs%pays.length].nom;
+        container.appendChild(bloc);
+      }
+      function onClicBloc(event){
+          var selectedBloc = event.target;
+          var blocCouleur =  selectedBloc.style.backgroundColor;
+          var selectedCountry = selectedBloc.dataset.pays;
+          var countryEvent = new CustomEvent('selectionPays',
+            { bubbles:true, detail:{
+                color:blocCouleur,
+                pays:selectedCountry
+              } }
+          );
+          event.target.dispatchEvent(countryEvent);
+      }
+   
+      function onCountrySelection(event){
+          
+          var blocCouleur =  event.detail.color;
+         
+          var selectedCountry = event.detail.pays;
+          document.getElementById('selection').innerText = selectedCountry;
+          document.body.style.backgroundColor = blocCouleur;
+      }
+      function onComboSelection(event){
+        var blocCouleur =  event.target.value;
+        var selectedCountry = event.target.children[event.target.selectedIndex].dataset.pays;
+        var countryEvent = new CustomEvent('selectionPays',
+          { bubbles:true, detail:{
+              color:blocCouleur,
+              pays:selectedCountry
+            } }
+        );
+        event.target.dispatchEvent(countryEvent);
+      }
+    </script>
+
+  </head>
+  <body >
+
+    <h1 id="selection"></h1>
+
+
+    <select id="comboPays" name="comboPays"
+        onchange="onComboSelection(event)"
+>
+      <option data-pays="France" value="red">France</option>
+      <option data-pays="Espagne" value="yellow">Espagne</option>
+      <option data-pays="Italie" value="green">Italie</option>
+      <option data-pays="Belgique" value="blue">Belgique</option>
+    </select>
+
+    <button type="button" name="button" onclick="addBlock()"
+      > ajouter un bloc</button>
+
+    <div id="container"/>
+
+  </body>
+
+</html>

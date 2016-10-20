@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Couleur fond</title>
+
+</head>
+<body>
+
+
+<a id="bouton1" href="#"
+   onclick="changeCouleurBouton('red', 'bouton1')">Rouge</a>
+<a id="bouton2" href="#"
+   onclick="changeCouleurBouton('grey', 'bouton2')">Gris</a>
+<a id="bouton3" href="#"
+   onclick="changeCouleurBouton('yellow', 'bouton3')">Jaune</a>
+<a id="bouton4" href="#"
+   onclick="changeCouleurBouton('white', 'bouton4')">Blanc</a>
+
+<script type="text/javascript">
+    function changeCouleurBouton(couleur, idElement){
+        document.getElementById(idElement).style.backgroundColor = couleur;
+//document.body.style.backgroundColor = couleur;
+    }
+</script>
+
+</body>
+</html>

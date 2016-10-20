@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calcul mental DOM</title>
+    <style>
+        html, body{
+            font-family:sans-serif;
+        }
+    </style>
+</head>
+<body onload="initialiseNouveauCalcul()">
+
+<h1>Calcul mental</h1>
+
+<div id="calcul"></div>
+
+<input id="reponse" type="text"/>
+
+<button onclick="verifieReponse()">Valider</button>
+
+<script type="text/javascript">
+    var nombreReponsesJustes = 0;
+    var resultat ;
+    /**
+     affichage d'un calcul
+     */
+    function initialiseNouveauCalcul( complex ){
+        var calcul;
+        var operations = ['+', '-', '*'];
+        // deux chiffres aléatoires
+        var chiffre1 = Math.round(Math.random() * 9) + 1;
+        var chiffre2 = Math.round(Math.random() * 9) + 1;
+        var hasardOperation = Math.ceil(Math.random() * (operations.length -1));
+        var operateurAleatoire = operations[ hasardOperation ];
+        if( ! complex /*!= true*/ ){
+            calcul = chiffre1 + ' ' + operateurAleatoire + ' ' + chiffre2;
+        } else { // si parametre complexe === true
+            var chiffre3 = Math.round(Math.random() * 9) + 1;
+            var hasardOperation2 = Math.ceil(Math.random() * (operations.length -1));
+            var operateurAleatoire2 = operations[ hasardOperation2 ];
+            // affichage de : chiffre1 operation chiffre2
+            calcul = chiffre1 + ' ' + operateurAleatoire + ' ' + chiffre2 + ' ' + operateurAleatoire2 + ' ' + chiffre3;
+        }
+        resultat = eval(calcul);
+        console.log(resultat);
+        document.getElementById('calcul').innerText = calcul;
+    }
+    function verifieReponse(){
+        var reponseUtilisateur = parseInt(document.querySelector('#reponse').value);
+        if( reponseUtilisateur === resultat ){
+            alert('bravo');
+            nombreReponsesJustes ++;
+            if(nombreReponsesJustes >= 3)
+                initialiseNouveauCalcul(true); // mode complexe
+            else
+                initialiseNouveauCalcul();
+        } else
+            alert('essaie encore !');
+    }
+</script>
+
+</body>
+</html>
